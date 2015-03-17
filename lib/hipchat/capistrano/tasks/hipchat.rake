@@ -3,7 +3,7 @@ require 'hipchat'
 namespace :hipchat do
 
   task :notify_deploy_started do
-    send_message("#{human} is deploying #{deployment_name} to #{environment_string}.", send_options)
+    send_message(start_message_text, send_options)
   end
 
   task :notify_deploy_finished do
@@ -70,6 +70,11 @@ namespace :hipchat do
       application
     end
   end
+  
+  def start_message_text
+    default_msg = "#{human} is deploying #{deployment_name} to #{environment_string}."
+    fetch(:hipchat_start_text, default_msg)
+  end  
 
   def message_color
     fetch(:hipchat_color, 'yellow')
